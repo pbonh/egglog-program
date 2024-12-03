@@ -9,3 +9,11 @@ license = "MIT OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+egglog = { workspace = true }
+itertools = { workspace = true }
+frunk = { workspace = true }
+derive-getters = { workspace = true }
+
+[dev-dependencies]
+indoc = "2.0.4"
+utilities = { path = "../utilities" }
