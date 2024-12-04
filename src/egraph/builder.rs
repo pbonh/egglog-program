@@ -14,10 +14,10 @@ use super::schedule::EgglogSchedules;
 use super::sorts::EgglogSorts;
 use super::{EgglogCommandList, EgglogSymbols};
 
-type EgglogProgramSorts = (EgglogSymbols, EgglogSorts);
-type EgglogProgramFacts = (EgglogSymbols, EgglogFacts);
-type EgglogRuleList = Vec<EgglogRules>;
-type EgglogScheduleList = Vec<EgglogSchedules>;
+pub type EgglogProgramSorts = (EgglogSymbols, EgglogSorts);
+pub type EgglogProgramFacts = (EgglogSymbols, EgglogFacts);
+pub type EgglogRuleList = Vec<EgglogRules>;
+pub type EgglogScheduleList = Vec<EgglogSchedules>;
 
 #[derive(Debug, Clone, Default, Getters)]
 pub struct EgglogProgram {
