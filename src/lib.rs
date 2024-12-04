@@ -1,4 +1,9 @@
 pub mod egraph;
+pub use egraph::*;
+pub use facts::EgglogFacts;
+pub use rules::EgglogRules;
+pub use schedule::EgglogSchedules;
+pub use sorts::EgglogSorts;
 
 #[cfg(test)]
 mod tests {
