@@ -95,5 +95,38 @@ mod tests {
         //         ]
         //     )
         // );
+
+        let _sort_command: Command = create_command!(Sort, span!(), "42", None);
+
+        let _datatype_command: Command = create_command!(
+            Datatype,
+            span!(),
+            "43",
+            [
+                { span!(), "44", vec!["45", "46"], Some(1) },
+                { span!(), "47", vec!["48", "49"], None }
+            ]
+        );
+
+        let _constructor_command: Command = create_command!(
+            Constructor,
+            span!(),
+            "50",
+            vec!["51", "52"],
+            "53",
+            Some(2),
+            false
+        );
+
+        let _relation_command: Command = create_command!(Relation, span!(), "54", vec!["55", "56"]);
+
+        let _function_command: Command = create_command!(
+            Function,
+            span!(),
+            "57",
+            vec!["58", "59"],
+            "60",
+            Some(GenericExpr::Call(span!(), Symbol::new("61"), vec![]))
+        );
     }
 }

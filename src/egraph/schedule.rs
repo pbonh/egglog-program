@@ -1,7 +1,6 @@
 use std::ops::Deref;
 
 use egglog::ast::Command;
-use egglog::EGraph;
 use itertools::Itertools;
 
 use crate::egraph::EgglogCommandList;
@@ -24,7 +23,7 @@ impl EgglogSchedules {
     }
 
     pub fn add_schedule_str(self, schedule_str: &str) -> Self {
-        match EGraph::default().parse_program(None, schedule_str) {
+        match egglog::ast::parse_program(None, schedule_str) {
             Ok(schedule_commands) => Self::add_schedule(self, schedule_commands),
             Err(error) => panic!("Failure to build schedule from string: {:?}", error),
         }

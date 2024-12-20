@@ -1,7 +1,6 @@
 use std::ops::Deref;
 
 use egglog::ast::Command;
-use egglog::EGraph;
 use itertools::Itertools;
 
 use crate::egraph::EgglogCommandList;
@@ -31,7 +30,7 @@ impl EgglogRules {
     }
 
     pub fn add_rule_str(self, rule_str: &str) -> Self {
-        match EGraph::default().parse_program(None, rule_str) {
+        match egglog::ast::parse_program(None, rule_str) {
             Ok(rule_commands) => Self::add_rules(self, rule_commands),
             Err(error) => panic!("Failure to build rules from string: {:?}", error),
         }

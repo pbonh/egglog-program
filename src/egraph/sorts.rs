@@ -1,7 +1,6 @@
 use std::ops::Deref;
 
 use egglog::ast::Command;
-use egglog::EGraph;
 use itertools::Itertools;
 
 use crate::egraph::EgglogCommandList;
@@ -20,7 +19,8 @@ impl EgglogSorts {
                 matches!(*command, Command::Sort(..))
                     || matches!(*command, Command::Datatype { .. })
                     || matches!(*command, Command::Relation { .. })
-                    || matches!(*command, Command::Function(..))
+                    || matches!(*command, Command::Function { .. })
+                    || matches!(*command, Command::Constructor { .. })
             })
             .collect_vec();
         let mut updated_sorts = Self(self.0);
@@ -29,7 +29,7 @@ impl EgglogSorts {
     }
 
     pub fn add_sort_str(self, sort_str: &str) -> Self {
-        match EGraph::default().parse_program(None, sort_str) {
+        match egglog::ast::parse_program(None, sort_str) {
             Ok(sort_commands) => Self::add_sorts(self, sort_commands),
             Err(error) => panic!("Failure to build sorts from string: {:?}", error),
         }
@@ -72,7 +72,7 @@ impl IntoIterator for EgglogSorts {
 #[cfg(test)]
 mod tests {
 
-    use egglog::ast::{GenericActions, GenericCommand, Schema, Symbol, DUMMY_SPAN};
+    use egglog::ast::{GenericCommand, Schema, Symbol, DUMMY_SPAN};
 
     use super::*;
 
@@ -86,23 +86,18 @@ mod tests {
         };
         let relation1 = GenericCommand::Relation {
             span: DUMMY_SPAN.clone(),
-            constructor: Symbol::new("relation1"),
+            name: Symbol::new("relation1"),
             inputs: vec![],
         };
-        let function1 = GenericCommand::Function(egglog::ast::GenericFunctionDecl {
+        let function1 = GenericCommand::Function {
             name: Symbol::new("func1"),
             schema: Schema {
                 input: vec![],
                 output: Symbol::new("func1_out"),
             },
-            default: None,
             merge: None,
-            merge_action: GenericActions::default(),
-            cost: None,
-            unextractable: false,
-            ignore_viz: false,
             span: DUMMY_SPAN.clone(),
-        });
+        };
         let egglog_sorts =
             EgglogSorts::default().add_sorts(vec![sort1, datatype1, relation1, function1]);
         assert_eq!(

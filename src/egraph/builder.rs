@@ -72,10 +72,11 @@ fn get_sort_symbol(command: &Command) -> Vec<Symbol> {
         }
         Command::Relation {
             span: _span,
-            constructor: symbol,
+            name: symbol,
             inputs: _inputs,
         } => vec![symbol.to_owned()],
-        Command::Function(func_decl) => vec![func_decl.name],
+        Command::Function { name, .. } => vec![*name],
+        Command::Constructor { name, .. } => vec![*name],
         _ => panic!("Egglog Command not supported in EgglogSorts {:?}.", command),
     }
 }

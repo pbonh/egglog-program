@@ -1,7 +1,6 @@
 use std::ops::Deref;
 
 use egglog::ast::Command;
-use egglog::EGraph;
 use itertools::Itertools;
 
 use crate::egraph::EgglogCommandList;
@@ -24,7 +23,7 @@ impl EgglogFacts {
     }
 
     pub fn add_facts_str(self, fact_str: &str) -> Self {
-        match EGraph::default().parse_program(None, fact_str) {
+        match egglog::ast::parse_program(None, fact_str) {
             Ok(fact_commands) => Self::add_facts(self, fact_commands),
             Err(error) => panic!("Failure to build facts from string: {:?}", error),
         }

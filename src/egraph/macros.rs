@@ -206,3 +206,273 @@ macro_rules! cmd_helper {
         $val
     };
 }
+
+// macro_rules! build_command {
+//     (Sort $name:expr; $($constructor:expr, $($arg:expr),*);*) => {
+//         GenericCommand::Sort(
+//             Span,
+//             Symbol::new($name),
+//             Some((
+//                 Symbol::new($name),
+//                 vec![$(GenericExpr::Call(Span, Symbol::new($constructor), vec![$(GenericExpr::Var(Span, Symbol::new($arg))),*])),*]
+//             ))
+//         )
+//     };
+//     (Sort $name:expr) => {
+//         GenericCommand::Sort(Span, Symbol::new($name), None)
+//     };
+//     (Datatype $name:expr; $($variant:expr $(($($type:expr),*))? $(cost $cost:expr)?),*) => {
+//         GenericCommand::Datatype {
+//             span: Span,
+//             name: Symbol::new($name),
+//             variants: vec![
+//                 $(
+//                     Variant {
+//                         span: Span,
+//                         name: Symbol::new($variant),
+//                         types: vec![$( $( Symbol::new($type) ),* )?],
+//                         cost: {
+//                             $(
+//                                 let cost_val = $cost;
+//                                 Some(cost_val)
+//                             )?
+//                             #[allow(unreachable_code)]
+//                             None
+//                         }
+//                     }
+//                 ),*
+//             ],
+//         }
+//     };
+//     (Constructor $name:expr ($($input:expr),*) -> $output:expr; $(cost $cost:expr;)? $(unextractable)?) => {
+//         GenericCommand::Constructor {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             cost: {
+//                 $(
+//                     let cost_val = $cost;
+//                     Some(cost_val)
+//                 )?
+//                 #[allow(unreachable_code)]
+//                 None
+//             },
+//             unextractable: {
+//                 $(
+//                    true
+//                 )?
+//                 #[allow(unreachable_code)]
+//                 false
+//             }
+//
+//         }
+//     };
+//     (Relation $name:expr ($($input:expr),*)) => {
+//         GenericCommand::Relation {
+//             span: Span,
+//             name: Symbol::new($name),
+//             inputs: vec![$(Symbol::new($input)),*],
+//         }
+//     };
+//     (Function $name:expr ($($input:expr),*) -> $output:expr; merge $merge_head:expr ($($merge_args:expr),*)) => {
+//         GenericCommand::Function {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             merge: Some(GenericExpr::Call(Span, Symbol::new($merge_head), vec![$(GenericExpr::Var(Span, Symbol::new($merge_args))),*])),
+//         }
+//     };
+//     (Function $name:expr ($($input:expr),*) -> $output:expr) => {
+//         GenericCommand::Function {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             merge: None
+//         }
+//     };
+// }
+
+// macro_rules! build_command {
+//     // Sort with constructor arguments
+//     (Sort $name:expr; $($constructor:expr, $($arg:expr),*);*) => {
+//         GenericCommand::Sort(
+//             Span,
+//             Symbol::new($name),
+//             Some((
+//                 Symbol::new($name),
+//                 vec![$(GenericExpr::Call(Span, Symbol::new($constructor), vec![$(GenericExpr::Var(Span, Symbol::new($arg))),*])),*]
+//             ))
+//         )
+//     };
+//
+//     // Sort without arguments
+//     (Sort $name:expr) => {
+//         GenericCommand::Sort(Span, Symbol::new($name), None)
+//     };
+//
+//     // Datatype
+//     (Datatype $name:expr; $($variant:expr $(($($type:expr),*))? $(cost $cost:expr)?),*) => {{
+//         let variants = vec![
+//             $(
+//                 {
+//                     let types = vec![$( $( Symbol::new($type) ),* )?];
+//                     let cost = {
+//                         $(
+//                             Some($cost)
+//                         )?
+//                         #[allow(unreachable_code)]
+//                         None
+//                     };
+//
+//                     Variant {
+//                         span: Span,
+//                         name: Symbol::new($variant),
+//                         types,
+//                         cost,
+//                     }
+//                 }
+//             ),*
+//         ];
+//
+//         GenericCommand::Datatype {
+//             span: Span,
+//             name: Symbol::new($name),
+//             variants,
+//         }
+//     }};
+//
+//     // Constructor
+//     (Constructor $name:expr ($($input:expr),*) -> $output:expr; $(cost $cost:expr;)? $(unextractable)?) => {{
+//         let cost = {
+//             $(
+//                 Some($cost)
+//             )?
+//             #[allow(unreachable_code)]
+//             None
+//         };
+//
+//         let unextractable = {
+//             $(
+//                true
+//             )?
+//             #[allow(unreachable_code)]
+//             false
+//         };
+//
+//         GenericCommand::Constructor {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             cost,
+//             unextractable,
+//         }
+//     }};
+//
+//     // Relation
+//     (Relation $name:expr ($($input:expr),*)) => {
+//         GenericCommand::Relation {
+//             span: Span,
+//             name: Symbol::new($name),
+//             inputs: vec![$(Symbol::new($input)),*],
+//         }
+//     };
+//
+//     // Function with merge
+//     (Function $name:expr ($($input:expr),*) -> $output:expr; merge $merge_head:expr ($($merge_args:expr),*)) => {
+//         GenericCommand::Function {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             merge: Some(GenericExpr::Call(Span, Symbol::new($merge_head), vec![$(GenericExpr::Var(Span, Symbol::new($merge_args))),*])),
+//         }
+//     };
+//
+//     // Function without merge
+//     (Function $name:expr ($($input:expr),*) -> $output:expr) => {
+//         GenericCommand::Function {
+//             span: Span,
+//             name: Symbol::new($name),
+//             schema: Schema {
+//                 input: vec![$(Symbol::new($input)),*],
+//                 output: Symbol::new($output),
+//             },
+//             merge: None,
+//         }
+//     };
+// }
+
+macro_rules! create_command {
+    // Match for `Sort` command
+    (Sort, $span:expr, $name:expr, $optional:expr) => {
+        GenericCommand::Sort($span, Symbol::new($name), $optional)
+    };
+
+    // Match for `Datatype` command
+    (Datatype, $span:expr, $name:expr, [$( { $v_span:expr, $v_name:expr, $v_types:expr, $v_cost:expr } ),*]) => {
+        GenericCommand::Datatype {
+            span: $span,
+            name: Symbol::new($name),
+            variants: vec![
+                $(
+                    Variant {
+                        span: $v_span,
+                        name: Symbol::new($v_name),
+                        types: $v_types.into_iter().map(Symbol::new).collect(),
+                        cost: $v_cost,
+                    }
+                ),*
+            ],
+        }
+    };
+
+    // Match for `Constructor` command
+    (Constructor, $span:expr, $name:expr, $input:expr, $output:expr, $cost:expr, $unextractable:expr) => {
+        GenericCommand::Constructor {
+            span: $span,
+            name: Symbol::new($name),
+            schema: Schema {
+                input: $input.into_iter().map(Symbol::new).collect(),
+                output: Symbol::new($output),
+            },
+            cost: $cost,
+            unextractable: $unextractable,
+        }
+    };
+
+    // Match for `Relation` command
+    (Relation, $span:expr, $name:expr, $inputs:expr) => {
+        GenericCommand::Relation {
+            span: $span,
+            name: Symbol::new($name),
+            inputs: $inputs.into_iter().map(Symbol::new).collect(),
+        }
+    };
+
+    // Match for `Function` command
+    (Function, $span:expr, $name:expr, $input:expr, $output:expr, $merge:expr) => {
+        GenericCommand::Function {
+            span: $span,
+            name: Symbol::new($name),
+            schema: Schema {
+                input: $input.into_iter().map(Symbol::new).collect(),
+                output: Symbol::new($output),
+            },
+            merge: $merge,
+        }
+    };
+}
