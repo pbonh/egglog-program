@@ -4,6 +4,7 @@ pub mod facts;
 #[macro_use]
 #[allow(unused_macros)]
 pub mod macros;
+#[allow(dead_code)]
 pub mod builder;
 pub mod rules;
 pub mod schedule;
