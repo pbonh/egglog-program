@@ -19,11 +19,10 @@ pub type EgglogSymbols = HashSet<Symbol>;
 
 #[cfg(test)]
 mod tests {
+    use egglog::ast::*;
 
     #[test]
     fn egglog_type_macros() {
-        use egglog::ast::*;
-
         // let set_option_cmd = cmd!(SetOption {
         //     name: "node_limit",
         //     value: 1000,
@@ -130,4 +129,274 @@ mod tests {
             Some(GenericExpr::Call(span!(), Symbol::new("61"), vec![]))
         );
     }
+
+    // use super::*;
+    //
+    // pub fn generate_llhd_dfg_commands() -> EgglogCommandList {
+    //     let mut commands = Vec::new();
+    //
+    //     // Basic sorts
+    //     commands.push(create_command!(Sort, span!(), "LLHDTy", None));
+    //     commands.push(create_command!(
+    //         Sort,
+    //         span!(),
+    //         "LLHDVecTy",
+    //         Some(("Vec", vec!["LLHDTy"]))
+    //     ));
+    //
+    //     // LLHDTy constructors
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "Void",
+    //         vec![],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "Time",
+    //         vec![],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "IntTy",
+    //         vec!["i64"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "Enum",
+    //         vec!["i64"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "Pointer",
+    //         vec!["LLHDTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "Signal",
+    //         vec!["LLHDTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "ArrayTy",
+    //         vec!["i64", "LLHDTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "StructTy",
+    //         vec!["LLHDVecTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "FuncTy",
+    //         vec!["LLHDVecTy", "LLHDTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //     commands.push(create_command!(
+    //         Constructor,
+    //         span!(),
+    //         "EntityTy",
+    //         vec!["LLHDVecTy", "LLHDVecTy"],
+    //         "LLHDTy",
+    //         None,
+    //         false
+    //     ));
+    //
+    //     // LLHDUnitKind datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDUnitKind",
+    //         [
+    //             { span!(), "Entity", vec![], None },
+    //             { span!(), "Function", vec![], None },
+    //             { span!(), "Process", vec![], None }
+    //         ]
+    //     ));
+    //
+    //     // LLHDValue datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDValue",
+    //         [{ span!(), "Value", vec!["LLHDTy", "i64"], None }]
+    //     ));
+    //
+    //     // LLHDVecValue sort
+    //     commands.push(create_command!(
+    //         Sort,
+    //         span!(),
+    //         "LLHDVecValue",
+    //         Some(("Vec", vec!["LLHDValue"]))
+    //     ));
+    //
+    //     // LLHDBlock datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDBlock",
+    //         [{ span!(), "Block", vec!["i64"], None }]
+    //     ));
+    //
+    //     // LLHDVecBlock sort
+    //     commands.push(create_command!(
+    //         Sort,
+    //         span!(),
+    //         "LLHDVecBlock",
+    //         Some(("Vec", vec!["LLHDBlock"]))
+    //     ));
+    //
+    //     // LLHDExtUnit datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDExtUnit",
+    //         [{ span!(), "ExtUnit", vec!["i64"], None }]
+    //     ));
+    //
+    //     // LLHDTimeValue datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDTimeValue",
+    //         [{ span!(), "TimeValue", vec!["i64"], None }]
+    //     ));
+    //
+    //     // LLHDRegMode datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDRegMode",
+    //         [
+    //             { span!(), "Low", vec![], None },
+    //             { span!(), "High", vec![], None },
+    //             { span!(), "Rise", vec![], None },
+    //             { span!(), "Fall", vec![], None },
+    //             { span!(), "Both", vec![], None }
+    //         ]
+    //     ));
+    //
+    //     // LLHDVecRegMode sort
+    //     commands.push(create_command!(
+    //         Sort,
+    //         span!(),
+    //         "LLHDVecRegMode",
+    //         Some(("Vec", vec!["LLHDRegMode"]))
+    //     ));
+    //
+    //     // LLHDDFG datatype (large datatype with many variants)
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDDFG",
+    //         [
+    //             { span!(), "ValueRef", vec!["LLHDValue"], None },
+    //             { span!(), "ConstInt", vec!["i64", "LLHDTy", "String"], None },
+    //             { span!(), "ConstTime", vec!["i64", "LLHDTy", "String"], None },
+    //             { span!(), "Alias", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "ArrayUniform", vec!["i64", "LLHDTy", "i64", "LLHDDFG"], None },
+    //             { span!(), "Array", vec!["i64", "LLHDVecValue"], None },
+    //             { span!(), "Struct", vec!["i64", "LLHDVecValue"], None },
+    //             { span!(), "Not", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Neg", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Add", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Sub", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "And", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Or", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Xor", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Smul", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Sdiv", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Smod", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Srem", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Umul", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Udiv", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Umod", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Urem", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Eq", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Neq", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Slt", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Sgt", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Sle", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Sge", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Ult", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Ugt", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Ule", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Uge", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Shl", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Shr", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Mux", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Reg", vec!["i64", "LLHDTy", "LLHDVecValue", "LLHDVecRegMode"], None },
+    //             { span!(), "InsField", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "i64", "i64"], None },
+    //             { span!(), "InsSlice", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "i64", "i64"], None },
+    //             { span!(), "ExtField", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "i64", "i64"], None },
+    //             { span!(), "ExtSlice", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "i64", "i64"], None },
+    //             { span!(), "Con", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Del", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Call", vec!["i64", "LLHDTy", "LLHDExtUnit", "i64", "LLHDVecValue"], None },
+    //             { span!(), "Inst", vec!["i64", "LLHDTy", "LLHDExtUnit", "i64", "LLHDVecValue"], None },
+    //             { span!(), "Sig", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Prb", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Drv", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "DrvCond", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Var", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Ld", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "St", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDDFG"], None },
+    //             { span!(), "Halt", vec!["i64"], None },
+    //             { span!(), "Ret", vec!["i64"], None },
+    //             { span!(), "RetValue", vec!["i64", "LLHDTy", "LLHDDFG"], None },
+    //             { span!(), "Phi", vec!["i64", "LLHDVecValue", "LLHDVecBlock"], None },
+    //             { span!(), "Br", vec!["i64", "LLHDBlock"], None },
+    //             { span!(), "BrCond", vec!["i64", "LLHDTy", "LLHDDFG", "LLHDBlock", "LLHDBlock"], None },
+    //             { span!(), "Wait", vec!["i64", "LLHDBlock", "LLHDVecValue"], None },
+    //             { span!(), "WaitTime", vec!["i64", "LLHDBlock", "LLHDVecValue"], None }
+    //         ]
+    //     ));
+    //
+    //     // LLHDUnitDFG datatype
+    //     commands.push(create_command!(
+    //         Datatype,
+    //         span!(),
+    //         "LLHDUnitDFG",
+    //         [
+    //             { span!(), "LLHDUnit", vec!["i64", "LLHDUnitKind", "String", "LLHDVecValue", "LLHDVecValue", "LLHDDFG"], None },
+    //             { span!(), "LLHDUnitDecl", vec!["i64", "LLHDUnitKind", "String", "LLHDVecValue", "LLHDVecValue"], None }
+    //         ]
+    //     ));
+    //
+    //     commands
+    // }
 }
