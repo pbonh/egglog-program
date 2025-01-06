@@ -30,7 +30,8 @@ impl EgglogRules {
     }
 
     pub fn add_rule_str(self, rule_str: &str) -> Self {
-        match egglog::ast::parse_program(None, rule_str) {
+        let egglog_parser = egglog::ast::Parser::default();
+        match egglog::ast::parse_program(None, rule_str, &egglog_parser) {
             Ok(rule_commands) => Self::add_rules(self, rule_commands),
             Err(error) => panic!("Failure to build rules from string: {:?}", error),
         }

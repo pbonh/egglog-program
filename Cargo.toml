@@ -13,6 +13,7 @@ egglog = { workspace = true }
 itertools = { workspace = true }
 frunk = { workspace = true }
 derive-getters = { workspace = true }
+lazy_static = { workspace = true }
 
 [dev-dependencies]
 indoc = "2.0.4"

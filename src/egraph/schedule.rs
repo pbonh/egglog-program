@@ -23,7 +23,8 @@ impl EgglogSchedules {
     }
 
     pub fn add_schedule_str(self, schedule_str: &str) -> Self {
-        match egglog::ast::parse_program(None, schedule_str) {
+        let egglog_parser = egglog::ast::Parser::default();
+        match egglog::ast::parse_program(None, schedule_str, &egglog_parser) {
             Ok(schedule_commands) => Self::add_schedule(self, schedule_commands),
             Err(error) => panic!("Failure to build schedule from string: {:?}", error),
         }
@@ -65,7 +66,8 @@ impl IntoIterator for EgglogSchedules {
 
 #[cfg(test)]
 mod tests {
-    use egglog::ast::{GenericCommand, GenericRunConfig, Schedule, Symbol, DUMMY_SPAN};
+    use crate::DUMMY_SPAN;
+    use egglog::ast::{GenericCommand, GenericRunConfig, Schedule, Symbol};
 
     use super::*;
 

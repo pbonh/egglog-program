@@ -23,7 +23,8 @@ impl EgglogFacts {
     }
 
     pub fn add_facts_str(self, fact_str: &str) -> Self {
-        match egglog::ast::parse_program(None, fact_str) {
+        let egglog_parser = egglog::ast::Parser::default();
+        match egglog::ast::parse_program(None, fact_str, &egglog_parser) {
             Ok(fact_commands) => Self::add_facts(self, fact_commands),
             Err(error) => panic!("Failure to build facts from string: {:?}", error),
         }
@@ -66,7 +67,8 @@ impl IntoIterator for EgglogFacts {
 #[cfg(test)]
 mod tests {
 
-    use egglog::ast::{Action, Expr, GenericCommand, Literal, Symbol, DUMMY_SPAN};
+    use crate::DUMMY_SPAN;
+    use egglog::ast::{Action, Expr, GenericCommand, Literal, Symbol};
 
     use super::*;
 

@@ -9,16 +9,22 @@ pub mod builder;
 pub mod rules;
 pub mod schedule;
 pub mod sorts;
+use lazy_static::lazy_static;
 use std::collections::HashSet;
 
 pub use builder::*;
 use egglog::ast::{Command, Symbol};
+
+lazy_static! {
+    pub static ref DUMMY_SPAN: egglog::ast::Span = egglog::span!();
+}
 
 pub type EgglogCommandList = Vec<Command>;
 pub type EgglogSymbols = HashSet<Symbol>;
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use egglog::ast::*;
 
     #[test]
