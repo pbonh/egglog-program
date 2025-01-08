@@ -10,6 +10,7 @@ license = "MIT OR Apache-2.0"
 
 [dependencies]
 egglog = { workspace = true }
+state-shift = { workspace = true }
 itertools = { workspace = true }
 frunk = { workspace = true }
 derive-getters = { workspace = true }

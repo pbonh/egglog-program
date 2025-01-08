@@ -1,4 +1,5 @@
 pub mod egraph;
+// pub mod program;
 pub use builder::{EgglogProgramFacts, EgglogProgramSorts, EgglogRuleList, EgglogScheduleList};
 pub use egraph::*;
 pub use facts::EgglogFacts;
