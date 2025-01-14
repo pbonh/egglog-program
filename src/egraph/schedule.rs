@@ -23,8 +23,8 @@ impl EgglogSchedules {
     }
 
     pub fn add_schedule_str(self, schedule_str: &str) -> Self {
-        let egglog_parser = egglog::ast::Parser::default();
-        match egglog::ast::parse_program(None, schedule_str, &egglog_parser) {
+        let mut egglog_parser = egglog::ast::Parser::default();
+        match egglog_parser.get_program_from_string(None, schedule_str) {
             Ok(schedule_commands) => Self::add_schedule(self, schedule_commands),
             Err(error) => panic!("Failure to build schedule from string: {:?}", error),
         }

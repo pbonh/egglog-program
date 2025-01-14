@@ -23,8 +23,8 @@ impl EgglogFacts {
     }
 
     pub fn add_facts_str(self, fact_str: &str) -> Self {
-        let egglog_parser = egglog::ast::Parser::default();
-        match egglog::ast::parse_program(None, fact_str, &egglog_parser) {
+        let mut egglog_parser = egglog::ast::Parser::default();
+        match egglog_parser.get_program_from_string(None, fact_str) {
             Ok(fact_commands) => Self::add_facts(self, fact_commands),
             Err(error) => panic!("Failure to build facts from string: {:?}", error),
         }

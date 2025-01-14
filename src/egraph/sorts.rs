@@ -29,8 +29,8 @@ impl EgglogSorts {
     }
 
     pub fn add_sort_str(self, sort_str: &str) -> Self {
-        let egglog_parser = egglog::ast::Parser::default();
-        match egglog::ast::parse_program(None, sort_str, &egglog_parser) {
+        let mut egglog_parser = egglog::ast::Parser::default();
+        match egglog_parser.get_program_from_string(None, sort_str) {
             Ok(sort_commands) => Self::add_sorts(self, sort_commands),
             Err(error) => panic!("Failure to build sorts from string: {:?}", error),
         }
