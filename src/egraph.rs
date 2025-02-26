@@ -4,18 +4,12 @@ pub mod egglog_names;
 pub mod macros;
 #[allow(dead_code)]
 pub mod builder;
-use lazy_static::lazy_static;
-use std::collections::HashSet;
-
 pub use builder::*;
-use egglog::ast::{Command, Symbol};
+use lazy_static::lazy_static;
 
 lazy_static! {
     pub static ref DUMMY_SPAN: egglog::ast::Span = egglog::span!();
 }
-
-pub type EgglogCommandList = Vec<Command>;
-pub type EgglogSymbols = HashSet<Symbol>;
 
 #[cfg(test)]
 mod tests {

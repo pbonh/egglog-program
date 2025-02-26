@@ -3,6 +3,7 @@ pub mod egraph;
 #[allow(dead_code)]
 pub mod program;
 pub use egraph::*;
+pub use program::*;
 pub mod facts;
 pub mod rules;
 pub mod schedule;

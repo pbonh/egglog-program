@@ -3,7 +3,7 @@ use std::ops::Deref;
 use egglog::ast::Command;
 use itertools::Itertools;
 
-use crate::egraph::EgglogCommandList;
+use crate::EgglogCommandList;
 
 #[derive(Debug, Clone, Default)]
 pub struct EgglogRules(EgglogCommandList);
