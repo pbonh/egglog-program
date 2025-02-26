@@ -1,7 +1,7 @@
 use state_shift::{impl_state, type_state};
 
 #[derive(Debug)]
-struct Player {
+struct EgglogProgram {
     race: Race,
     level: u8,
     skill_slots: u8,
@@ -16,7 +16,7 @@ enum Race {
 }
 
 #[type_state(states = (Initial, RaceSet, LevelSet, SkillSlotsSet, SpellSlotsSet), slots = (Initial, Initial, Initial))]
-struct PlayerBuilder {
+struct EgglogProgramBuilder {
     race: Option<Race>,
     level: Option<u8>,
     skill_slots: Option<u8>,
@@ -24,10 +24,10 @@ struct PlayerBuilder {
 }
 
 #[impl_state]
-impl PlayerBuilder {
+impl EgglogProgramBuilder {
     #[require(Initial, Initial, Initial)] // require the default state for the constructor
     fn new() -> Self {
-        PlayerBuilder {
+        EgglogProgramBuilder {
             race: None,
             level: None,
             skill_slots: None,
@@ -37,8 +37,8 @@ impl PlayerBuilder {
 
     #[require(Initial, B, C)] // can be called only at `Initial` state.
     #[switch_to(RaceSet, B, C)] // Transitions to `RaceSet` state
-    fn set_race(self, race: Race) -> PlayerBuilder {
-        PlayerBuilder {
+    fn set_race(self, race: Race) -> EgglogProgramBuilder {
+        EgglogProgramBuilder {
             race: Some(race),
             level: self.level,
             skill_slots: self.skill_slots,
@@ -48,14 +48,14 @@ impl PlayerBuilder {
 
     #[require(RaceSet, B, C)]
     #[switch_to(RaceSet, LevelSet, C)]
-    fn set_level(self, level_modifier: u8) -> PlayerBuilder {
+    fn set_level(self, level_modifier: u8) -> EgglogProgramBuilder {
         let level = match self.race {
             Some(Race::Orc) => level_modifier + 2, // Orc's have +2 level advantage
             Some(Race::Human) => level_modifier,   // humans are weak
             None => unreachable!("type safety ensures that `race` is initialized"),
         };
 
-        PlayerBuilder {
+        EgglogProgramBuilder {
             race: self.race,
             level: Some(level),
             skill_slots: self.skill_slots,
@@ -65,14 +65,14 @@ impl PlayerBuilder {
 
     #[require(RaceSet, B, C)]
     #[switch_to(RaceSet, B, SkillSlotsSet)]
-    fn set_skill_slots(self, skill_slot_modifier: u8) -> PlayerBuilder {
+    fn set_skill_slots(self, skill_slot_modifier: u8) -> EgglogProgramBuilder {
         let skill_slots = match self.race {
             Some(Race::Orc) => skill_slot_modifier,
             Some(Race::Human) => skill_slot_modifier + 1, // Human's have +1 skill slot advantage
             None => unreachable!("type safety ensures that `race` should be initialized"),
         };
 
-        PlayerBuilder {
+        EgglogProgramBuilder {
             race: self.race,
             level: self.level,
             skill_slots: Some(skill_slots),
@@ -82,7 +82,7 @@ impl PlayerBuilder {
 
     #[require(A, LevelSet, SkillSlotsSet)]
     #[switch_to(SpellSlotsSet, LevelSet, SkillSlotsSet)]
-    fn set_spells(self, spell_slot_modifier: u8) -> PlayerBuilder {
+    fn set_spells(self, spell_slot_modifier: u8) -> EgglogProgramBuilder {
         let level = self
             .level
             .expect("type safety ensures that `level` is initialized");
@@ -93,7 +93,7 @@ impl PlayerBuilder {
 
         let spell_slots = level / 10 + skill_slots + spell_slot_modifier;
 
-        PlayerBuilder {
+        EgglogProgramBuilder {
             race: self.race,
             level: self.level,
             skill_slots: self.skill_slots,
@@ -110,8 +110,8 @@ impl PlayerBuilder {
     }
 
     #[require(SpellSlotsSet, B, C)]
-    fn build(self) -> Player {
-        Player {
+    fn build(self) -> EgglogProgram {
+        EgglogProgram {
             race: self.race.expect("type safety ensures this is set"),
             level: self.level.expect("type safety ensures this is set"),
             skill_slots: self.skill_slots.expect("type safety ensures this is set"),
@@ -126,7 +126,7 @@ mod tests {
 
     #[test]
     fn complex_player_creation_works() {
-        let player = PlayerBuilder::new()
+        let player = EgglogProgramBuilder::new()
             .set_race(Race::Human)
             .set_level(10)
             .set_skill_slots(10)

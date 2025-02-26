@@ -6,6 +6,8 @@ pub mod facts;
 pub mod macros;
 #[allow(dead_code)]
 pub mod builder;
+pub mod program;
+pub use program::{EgglogProgramFacts, EgglogProgramSorts, EgglogRuleList, EgglogScheduleList};
 pub mod rules;
 pub mod schedule;
 pub mod sorts;

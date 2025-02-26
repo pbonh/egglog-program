@@ -1,6 +1,6 @@
 pub mod egraph;
-// pub mod program;
-pub use builder::{EgglogProgramFacts, EgglogProgramSorts, EgglogRuleList, EgglogScheduleList};
+#[allow(dead_code)]
+pub mod program;
 pub use egraph::*;
 pub use facts::EgglogFacts;
 pub use rules::EgglogRules;
