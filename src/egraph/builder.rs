@@ -8,11 +8,11 @@ use frunk::monoid::Monoid;
 use frunk::semigroup::Semigroup;
 use itertools::Itertools;
 
-use super::facts::EgglogFacts;
-use super::rules::EgglogRules;
-use super::schedule::EgglogSchedules;
-use super::sorts::EgglogSorts;
-use super::{EgglogCommandList, EgglogSymbols};
+use crate::facts::EgglogFacts;
+use crate::rules::EgglogRules;
+use crate::schedule::EgglogSchedules;
+use crate::sorts::EgglogSorts;
+use crate::{EgglogCommandList, EgglogSymbols};
 
 pub type EgglogProgramSorts = (EgglogSymbols, EgglogSorts);
 pub type EgglogProgramFacts = (EgglogSymbols, EgglogFacts);

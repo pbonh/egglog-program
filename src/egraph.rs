@@ -1,16 +1,9 @@
-#[allow(dead_code)]
 pub mod egglog_names;
-pub mod facts;
 #[macro_use]
 #[allow(unused_macros)]
 pub mod macros;
 #[allow(dead_code)]
 pub mod builder;
-pub mod program;
-pub use program::{EgglogProgramFacts, EgglogProgramSorts, EgglogRuleList, EgglogScheduleList};
-pub mod rules;
-pub mod schedule;
-pub mod sorts;
 use lazy_static::lazy_static;
 use std::collections::HashSet;
 
