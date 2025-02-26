@@ -2,9 +2,6 @@ pub mod egglog_names;
 #[macro_use]
 #[allow(unused_macros)]
 pub mod macros;
-#[allow(dead_code)]
-pub mod builder;
-pub use builder::*;
 use lazy_static::lazy_static;
 
 lazy_static! {

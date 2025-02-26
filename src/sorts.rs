@@ -1,9 +1,32 @@
 use std::ops::Deref;
 
-use egglog::ast::Command;
+use egglog::ast::{Command, Symbol};
 use itertools::Itertools;
 
 use crate::EgglogCommandList;
+
+pub(crate) fn get_sort_symbol(command: &Command) -> Vec<Symbol> {
+    match command {
+        Command::Sort(_span, symbol, _expr) => vec![symbol.to_owned()],
+        Command::Datatype {
+            span: _span,
+            name: symbol,
+            variants,
+        } => {
+            let mut variant_symbols = variants.iter().map(|variant| variant.name).collect_vec();
+            variant_symbols.insert(0, symbol.to_owned());
+            variant_symbols
+        }
+        Command::Relation {
+            span: _span,
+            name: symbol,
+            inputs: _inputs,
+        } => vec![symbol.to_owned()],
+        Command::Function { name, .. } => vec![*name],
+        Command::Constructor { name, .. } => vec![*name],
+        _ => panic!("Egglog Command not supported in EgglogSorts {:?}.", command),
+    }
+}
 
 #[derive(Debug, Clone, Default)]
 pub struct EgglogSorts(EgglogCommandList);

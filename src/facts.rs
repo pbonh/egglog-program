@@ -1,9 +1,22 @@
 use std::ops::Deref;
 
-use egglog::ast::Command;
+use egglog::ast::{Command, GenericAction, Symbol};
 use itertools::Itertools;
 
 use crate::EgglogCommandList;
+
+pub(crate) fn get_fact_symbol(command: &Command) -> Symbol {
+    match command {
+        Command::Action(let_action) => {
+            if let GenericAction::Let(__span, let_stmt_symbol, _let_stmt) = let_action {
+                *let_stmt_symbol
+            } else {
+                panic!("Egglog Command not supported in EgglogFacts {:?}.", command)
+            }
+        }
+        _ => panic!("Egglog Command not supported in EgglogFacts {:?}.", command),
+    }
+}
 
 #[derive(Debug, Clone, Default)]
 pub struct EgglogFacts(EgglogCommandList);

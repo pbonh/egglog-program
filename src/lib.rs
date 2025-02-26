@@ -1,4 +1,5 @@
 pub mod builder;
+pub use builder::*;
 pub mod egraph;
 #[allow(dead_code)]
 pub mod program;
