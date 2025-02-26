@@ -276,8 +276,8 @@ mod tests {
         let sorts_data = EgglogSorts::default();
         let facts_data = EgglogFacts::default();
         let rules_data = EgglogRules::default();
-        let schedules_data = EgglogSchedules::default();
         let symbols = EgglogSymbols::default();
+        let schedules_data = EgglogSchedules::default();
 
         let _egglog_program = EgglogProgramBuilder::initialize()
             .sorts(sorts_data)
@@ -294,6 +294,30 @@ mod tests {
         let _egglog_program = EgglogProgramBuilder::initialize()
             .sorts(sorts_data)
             .definitions();
+    }
+
+    #[test]
+    fn egglog_program_method_order_facts_and_bindings() {
+        let sorts_data = EgglogSorts::default();
+        let facts_data = EgglogFacts::default();
+        let symbols = EgglogSymbols::default();
+        let _egglog_program = EgglogProgramBuilder::initialize()
+            .sorts(sorts_data)
+            .facts(facts_data)
+            .bindings(symbols)
+            .variables();
+    }
+
+    #[test]
+    fn egglog_program_method_order_rules_and_schedules() {
+        let sorts_data = EgglogSorts::default();
+        let rules_data = EgglogRules::default();
+        let schedules_data = EgglogSchedules::default();
+        let _egglog_program = EgglogProgramBuilder::initialize()
+            .sorts(sorts_data)
+            .rules(rules_data)
+            .schedules(schedules_data)
+            .rewrite();
     }
 
     #[test]
