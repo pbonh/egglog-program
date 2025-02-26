@@ -70,7 +70,7 @@ impl EgglogProgramBuilder {
             sorts: self.sorts,
             facts: Some((fact_symbols, facts)),
             rules: self.rules,
-            bindings: self.bindings,
+            bindings: None,
             schedules: self.schedules,
         }
     }
@@ -83,7 +83,7 @@ impl EgglogProgramBuilder {
             facts: self.facts,
             rules: Some(vec![rules]),
             bindings: self.bindings,
-            schedules: self.schedules,
+            schedules: None,
         }
     }
 
